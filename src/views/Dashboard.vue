@@ -1,34 +1,45 @@
 <template>
   <div class="dashboard">
-    <h2  class="subheading grey--text">Dashboard</h2>
+    <h2  class="title grey--text">Dashboard</h2>
     <v-container class="my-5">
       <v-layout row class="ml-1 pa-3">
-          <v-btn small text color="#9E9E9E" @click="sortBy('title')">
-            <v-icon left small>folder</v-icon>
-            <span class="caption text-lowercase grey--text">By project name</span>
-          </v-btn>
-          <v-btn small text color="#9E9E9E" @click="sortBy('person')">
-            <v-icon left small>person</v-icon>
-            <span class="caption text-lowercase grey--text">By person</span>
-          </v-btn>
-        </v-layout>
-      <v-card flat v-for="project in projects" :key="project.title" :class="`pa-3 project ${project.status}`">
-        <v-layout row wrap class="pa-3">
-          <v-flex xs12 md6 >
+        <v-tooltip top>
+          <template v-slot:activator="{ on }">
+            <v-btn small text color="#9E9E9E" @click="sortBy('title')" v-on="on">
+              <v-icon left small>folder</v-icon>
+              <span class="caption text-lowercase grey--text">By project name</span>
+            </v-btn>
+          </template>
+          <span>Sort by project name</span>
+        </v-tooltip>
+        <v-tooltip top>
+          <template v-slot:activator="{ on }">
+            <v-btn v-on="on" small text color="#9E9E9E" @click="sortBy('person')">
+              <v-icon left small>person</v-icon>
+              <span class="caption text-lowercase grey--text">By person</span>
+            </v-btn>
+          </template>
+          <span>Sort by person</span>
+        </v-tooltip>
+
+      </v-layout>
+      <v-card flat v-for="project in projects" :key="project.title" :class="`pa-2 ma-2 project ${project.status}`">
+        <v-layout row wrap class="ml-3 pa-1">
+          <v-flex xs12 md6 class="pb-2">
             <div class="caption grey--text">Project title</div>
             <div>{{ project.title }}</div>
           </v-flex>
-          <v-flex xs6 sm4 md2>
+          <v-flex xs6 sm4 md2 class="pb-2">
             <div class="caption grey--text">Person</div>
             <div>{{ project.person }}</div>
           </v-flex>
-          <v-flex xs6 sm4 md2>
+          <v-flex xs6 sm4 md2 class="pb-2">
             <div class="caption grey--text">Due by</div>
             <div>{{ project.due }}</div>
           </v-flex>
-          <v-flex xs2 sm4 md2>
+          <v-flex xs2 sm4 md2 class="pb-2">
             <div class="text-right">
-              <v-chip small :color="`${project.status}`" :class="`v-chip--active white--text caption my-1`">{{ project.status }}</v-chip>
+              <v-chip small :color="`${project.status}`" :class="`v-chip--active white--text caption my-3 mr-3`">{{ project.status }}</v-chip>
             </div>
           </v-flex>
         </v-layout>
