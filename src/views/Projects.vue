@@ -15,23 +15,32 @@
     </div>
 </template>
 <script>
+import db from "@/fb";
 export default {
     data(){
         return{
-            projects:[
-                {title: 'Design a new website', person: 'Tom', due: '30th Nov 2019', status: 'ongoing', content:'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt, recusandae deserunt dolor iste doloremque nulla nostrum debitis. Rerum quidem quibusdam, dicta exercitationem, sint vitae laudantium assumenda dolorem molestiae iusto explicabo.'},
-                {title: 'Code up the homepage', person: 'Tom', due: '30th Nov 2019', status: 'ongoing', content:'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt, recusandae deserunt dolor iste doloremque nulla nostrum debitis. Rerum quidem quibusdam, dicta exercitationem, sint vitae laudantium assumenda dolorem molestiae iusto explicabo.'},
-                {title: 'Design video thumbnails', person: 'Soku', due: '21st Oct 2019', status: 'completed', content:'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt, recusandae deserunt dolor iste doloremque nulla nostrum debitis. Rerum quidem quibusdam, dicta exercitationem, sint vitae laudantium assumenda dolorem molestiae iusto explicabo.'},
-                {title: 'Create a community forum', person: 'Borat', due: '1st Jan 2018', status: 'overdue', content:'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sunt, recusandae deserunt dolor iste doloremque nulla nostrum debitis. Rerum quidem quibusdam, dicta exercitationem, sint vitae laudantium assumenda dolorem molestiae iusto explicabo.'}
-            ]
+            projects:[]
         }
     },
     computed: {
         myProjects(){
             return this.projects.filter(project => {
-                return project.person == 'Tom'
+                return project.person == 'Tomasz'
             });
         }
-    }
+    },
+    created(){
+    db.collection('projects').onSnapshot(res => {
+      const changes = res.docChanges();
+      changes.forEach(change => {
+        if(change.type === 'added'){
+          this.projects.push({
+            ...change.doc.data(),
+            id: change.doc.id
+          })
+        }
+      });
+    })
+  }
 }
 </script>
